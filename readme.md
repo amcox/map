@@ -1,0 +1,1 @@
+* Do a combined export by district from NWEA website. Put the resulting csv file into Data/raw and add ' - season' (fall, winter, spring) on the end before the extension.

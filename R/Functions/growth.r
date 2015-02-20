@@ -63,3 +63,13 @@ add_growth_columns_to_spring <- function(df) {
   df$fall.spring.ggs <- apply(df, 1, 'cut_growth_status_on_se', 'fall.spring.rit.growth', 'goal.fall.spring', 'spring.se')
   return(df)
 }
+
+add_growth_columns_to_winter <- function(df) {
+  df$fall.winter.rit.growth <- apply(df, 1, fall_winter_rit_growth)
+  df$fall.winter.rit.growth.dif <- apply(df, 1, fall_winter_rit_growth_dif)
+  df$fall.winter.rit.growth.percent <- apply(df, 1, fall_winter_rit_growth_percent)
+
+  df$fall.winter.ggs <- apply(df, 1, 'cut_growth_status_on_se', 'fall.winter.rit.growth', 'goal.fall.winter', 'winter.se')
+  
+  return(df)
+}

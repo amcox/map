@@ -14,27 +14,33 @@ update_functions()
 
 df <- load_wide_map_data()
 df <- subset(df, map.grade %in% numeric.grades)
-df <- subset(df, !is.na(fall.rit))
-df <- subset(df, !is.na(winter.rit))
+df <- subset(df, subject %in% c("reading", "math"))
 
-df$fall.winter.rit.growth <- fall_winter_rit_growth(df)
-df$fall.winter.rit.growth.dif <- fall_winter_rit_growth_dif(df)
+df <- add_growth_columns_to_winter(df)
 
-d.sg <- df %.% group_by(school, map.grade) %.%
-  summarize(perc.met.goal = length(fall.winter.rit.growth.dif[fall.winter.rit.growth.dif >= 0]) / length(fall.winter.rit.growth.dif),
-    perc.50th.or.above = length(winter.percentile[winter.percentile >= 50]) / length(winter.percentile)
+summary_func <- function(df) {
+  summarize(df,
+    perc.met.goal = length(fall.winter.rit.growth.dif[fall.winter.rit.growth.dif >= 0 & !is.na(fall.winter.rit.growth.dif)]) / sum(!is.na(fall.winter.rit.growth.dif)),
+    perc.40th.or.above = length(winter.percentile[winter.percentile >= 40 & !is.na(winter.percentile)]) / sum(!is.na(winter.percentile)),
+    perc.50th.or.above = length(winter.percentile[winter.percentile >= 50 & !is.na(winter.percentile)]) / sum(!is.na(winter.percentile)),
+    avg.fall.winter.rit.growth = mean(fall.winter.rit.growth, na.rm=T),
+    avg.fall.winter.rit.growth.dif = mean(fall.winter.rit.growth.dif, na.rm=T),
+    avg.fall.winter.rit.growth.percent = mean(fall.winter.rit.growth.percent, na.rm=T),
+      
+    fall.winter.ggs.closed.percent = length(fall.winter.ggs[fall.winter.ggs == 'closed' & !is.na(fall.winter.ggs)]) / sum(!is.na(fall.winter.ggs)),
+    fall.winter.ggs.none.percent = length(fall.winter.ggs[fall.winter.ggs == 'none' & !is.na(fall.winter.ggs)]) / sum(!is.na(fall.winter.ggs)),
+    fall.winter.ggs.opened.percent = length(fall.winter.ggs[fall.winter.ggs == 'opened' & !is.na(fall.winter.ggs)]) / sum(!is.na(fall.winter.ggs))    
   )
-d.s <- df %.% group_by(school) %.%
-  summarize(perc.met.goal = length(fall.winter.rit.growth.dif[fall.winter.rit.growth.dif >= 0]) / length(fall.winter.rit.growth.dif),
-    perc.50th.or.above = length(winter.percentile[winter.percentile >= 50]) / length(winter.percentile)
-  )
+}
+
+d.sg <- df %.% group_by(school, map.grade, subject) %.% summary_func()
+  
+d.s <- df %.% group_by(school, subject) %.% summary_func()
 d.s$map.grade <- rep('all', nrow(d.s))
-d.g <- df %.% group_by(map.grade) %.%
-  summarize(perc.met.goal = length(fall.winter.rit.growth.dif[fall.winter.rit.growth.dif >= 0]) / length(fall.winter.rit.growth.dif),
-    perc.50th.or.above = length(winter.percentile[winter.percentile >= 50]) / length(winter.percentile)
-  )
+
+d.g <- df %.% group_by(map.grade, subject) %.% summary_func()
 d.g$school <- rep('all', nrow(d.g))
 
 d <- rbind(d.sg, d.s, d.g)
 
-save_df_as_csv(d, 'map summary stats, winter')
+save_df_as_csv(d, 'map summary stats 2014-15 winter')
