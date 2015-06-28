@@ -21,6 +21,7 @@ library(digest)
 # write.csv(df, "ReNEW MAP data for NSNO.csv", na="", row.names=F)
 
 df <- load_all_map_from_raw()
+df <- subset(df, map.grade %in% c(0, 1, 2))
 df$hash.id <- apply(df, 1, function(r){
   digest(as.numeric(r[['id']]), algo="sha256")
 })

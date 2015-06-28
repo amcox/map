@@ -2,6 +2,8 @@ extract_map_fields <- function(df.raw) {
   # This takes a raw csv download from the NWEA website, extracts the fields
   # we want, and cleans them up. It returns a data.frame.
   
+	library(stringr)
+	
   # Make a new df to put the processed data
   d <- data.frame(term=rep(NA, nrow(df.raw)), stringsAsFactors=F)
 

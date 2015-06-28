@@ -11,3 +11,11 @@ save_plot_as_pdf <- function(plot, file_name, wide=T){
   print(plot)
   dev.off()
 }
+
+save_plot_as_pdf_adjustable <- function(plot, file_name, w=10.5, h=8){
+  pdf(paste0("./../Output/", file_name, ".pdf"),
+      width=w, height=h
+  )
+  print(plot)
+  dev.off()
+}

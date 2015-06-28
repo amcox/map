@@ -51,4 +51,4 @@ d.g$school <- rep('all', nrow(d.g))
 
 d <- rbind(d.sg, d.s, d.g)
 
-save_df_as_csv(d, 'map summary stats 2013-14 spring')
+save_df_as_csv(d, 'map summary stats 2014-15 spring')

@@ -5,6 +5,7 @@ make_wide_map_data <- function(df) {
   # Pull out the goal columns and reduce to just one set of goal values per
   # student-subject-year
   library(stringr)
+	library(gdata)
   
   goal.cols <- c("goal.fall.fall", "goal.spring.spring", "goal.fall.spring",
     "goal.fall.winter"

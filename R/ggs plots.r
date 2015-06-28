@@ -21,11 +21,11 @@ df <- add_growth_columns_to_spring(df)
 df$grade <- df$map.grade
 
 p <- make_ggs_plot(subset(df, subject=="reading"), c("school", "grade"),
-  "fall.spring.ggs", "MAP Reading Gap Growth Status, Fall to Spring 2014"
+  "fall.spring.ggs", "MAP Reading Gap Growth Status, Fall to Spring 2015"
 )
 save_plot_as_pdf(p, "MAP Reading Gap Growth Status, Fall to Spring by School-Grade", wide=F)
 
 p <- make_ggs_plot(subset(df, subject=="math"), c("school", "grade"),
-  "fall.spring.ggs", "MAP Math Gap Growth Status, Fall to Spring 2014"
+  "fall.spring.ggs", "MAP Math Gap Growth Status, Fall to Spring 2015"
 )
 save_plot_as_pdf(p, "MAP Math Gap Growth Status, Fall to Spring by School-Grade", wide=F)
