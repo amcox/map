@@ -27,6 +27,22 @@ load_leap_data <- function() {
   return(d)
 }
 
+load_parc_data_15 <- function() {
+  d <- read.csv(file="./../Data/grade 3 parc 14-15.csv", head=TRUE, na.string=c(""),
+		stringsAsFactors=F
+	)
+  names(d) <- tolower(names(d))
+  return(d)
+}
+
+load_parc_cuts_15 <- function() {
+  d <- read.csv(file="./../Data/parc cut scores.csv", head=TRUE, na.string=c(""),
+		stringsAsFactors=F
+	)
+  names(d) <- tolower(names(d))
+  return(d)
+}
+
 load_ps_hr_data <- function() {
   d <- read.csv(file="./../Data/ps home room data.csv", head=TRUE, na.string=c(""))
   names(d) <- tolower(names(d))
